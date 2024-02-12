@@ -12,9 +12,21 @@ datasource db {
 }
 
 model Customer {
-  id        String   @id @unique @default(uuid())
-  email     String   @unique
-  password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id                 String    @id @unique @default(uuid())
+  email              String    @unique
+  password           String
+  role               Role      @default(USER)
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  verificationCode   Int?
+  verifiedAt         DateTime?
+  accessToken        String?   @unique
+  accessTokenExpire  DateTime?
+  refreshToken       String?   @unique
+  refreshTokenExpire DateTime?
+}
+
+enum Role {
+  USER
+  ADMIN
 }

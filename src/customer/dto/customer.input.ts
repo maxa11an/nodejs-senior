@@ -1,5 +1,5 @@
 import { Field, InputType, Int } from '@nestjs/graphql';
-import { Prisma } from '@prisma/client';
+import { Prisma, Role } from '@prisma/client';
 
 @InputType()
 export class WhereCustomerInput {
@@ -14,6 +14,24 @@ export class WhereCustomerInput {
 
   @Field(() => Date, { nullable: true })
   updatedAt?: Date;
+
+  @Field(() => String, { nullable: true })
+  accessToken?: string;
+
+  @Field(() => Date, { nullable: true })
+  accessTokenExpire?: Date;
+
+  @Field(() => String, { nullable: true })
+  refreshToken?: string;
+
+  @Field(() => Date, { nullable: true })
+  refreshTokenExpire?: Date;
+
+  @Field(() => Int, { nullable: true })
+  verificationCode?: number;
+
+  @Field(() => Date, { nullable: true })
+  verifiedAt?: Date;
 }
 
 @InputType()
@@ -29,4 +47,28 @@ export class GetCustomerInput {
 
   @Field(() => WhereCustomerInput, { nullable: true })
   where: WhereCustomerInput;
+}
+
+@InputType()
+export class CreateCustomerInput {
+  @Field(() => String, { nullable: false })
+  email: string;
+
+  @Field(() => String, { nullable: false })
+  password: string;
+}
+
+@InputType()
+export class UpdateCustomerInput {
+  @Field(() => Role, { nullable: true, defaultValue: Role.USER })
+  role?: Role;
+
+  @Field(() => String, { nullable: false })
+  email?: string;
+
+  @Field(() => String, { nullable: true })
+  password?: string;
+
+  @Field(() => String, { nullable: false, defaultValue: new Date() })
+  updatedAt?: Date;
 }
